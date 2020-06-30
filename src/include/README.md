@@ -3,4 +3,4 @@ This folder should contain the Eigen and Spectra header files. To check that eve
 * src/include/Eigen/Core
 * src/include/Spectra/GenEigsBase.h
 
-If you have Eigen installed in a differnt folder, make sure to adjust the include paths in the Visual Studio project file.
+If you have Eigen installed in a different folder, make sure to adjust the include paths in the Visual Studio project file.
