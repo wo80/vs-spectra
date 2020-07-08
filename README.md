@@ -10,4 +10,4 @@ Pre-compiled binaries for windows users can be found [here](http://wo80.bplaced.
 
 ## Why?
 
-The project was created to maintain ARPACK builds matching the [CSparse.Interop](https://github.com/wo80/csparse-interop) bindings for C#.
+The project was created to maintain Spectra builds matching the [CSparse.Interop](https://github.com/wo80/csparse-interop) bindings for C#.
