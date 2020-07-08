@@ -24,11 +24,9 @@ extern "C"
 	EXPORT int spectra_di_sg(int which, int k, int ncv, int maxit, double tol,
 		spectra_spmat *A, spectra_spmat *B, spectra_result *result);
 
-	/*
 	// Real symmetric generalized problem - shift-and-invert mode (standard, buckling or Caley)
 	EXPORT int spectra_di_sg_shift(int which, char mode, int k, int ncv, int maxit, double tol, double sigma,
 		spectra_spmat *A, spectra_spmat *B, spectra_result *result);
-	//*/
 
 #ifdef __cplusplus
 }

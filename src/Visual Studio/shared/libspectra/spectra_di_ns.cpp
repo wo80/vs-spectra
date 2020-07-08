@@ -16,111 +16,88 @@ using MapVec = Eigen::Map<Eigen::VectorXcd>;
 using MapMat = Eigen::Map<Eigen::MatrixXcd>;
 using SpMatrix = Eigen::SparseMatrix<double>;
 
-/************************ Macros to generate code ************************
+template <typename TypeA, typename Solver>
+int solve_di_ns(const TypeA& A, Solver& eigs, int maxit, double tol, SortRule selection, spectra_result* result)
+{
+	eigs.init();
 
-#define EIG_CODE_COMPLEX_SHIFT(RULE, OPTYPE)                                   \
-GenEigsComplexShiftSolver<double, RULE, OPTYPE> eigs(&op, k, ncv, sigmar, sigmai); \
-EIG_COMMON_CODE
+	int nconv = eigs.compute(selection, maxit, tol);
 
-/************************ Macros to generate code ************************/
+	CompInfo info = eigs.info();
 
+	if (info == CompInfo::Successful)
+	{
+		auto evals = static_cast<Eigen::dcomplex*>(result->eigval);
+		MapVec v(evals, nconv, 1);
+		v.noalias() = eigs.eigenvalues();
+
+		if (result->eigvec != NULL)
+		{
+			auto evecs = static_cast<Eigen::dcomplex*>(result->eigvec);
+			MapMat m(evecs, A.rows(), nconv);
+			m.noalias() = eigs.eigenvectors();
+		}
+	}
+
+	result->iterations = eigs.num_iterations();
+	result->info = static_cast<int>(info);
+
+	return nconv;
+}
 int spectra_di_ns(int which, int k, int ncv, int maxit, double tol,
 	spectra_spmat* A, spectra_result* result)
 {
-	CompInfo info;
-	SortRule selection;
-
-	int nconv = 0;
-	bool retvec = result->eigvec != NULL;
-
 	try
 	{
+		SortRule selection;
+
 		SELECTION_RULE_FROM_INT(which)
 
 		// We are going to calculate the eigenvalues of M
 		Eigen::Map<const SpMatrix> M(A->n, A->n, A->nnz, A->p, A->i, (double*)A->x);
 
-		// Construct matrix operation object using the wrapper class SparseSymMatProd
-		//SparseGenMatProd<double> op(M);
-
-		auto evecs = reinterpret_cast<std::complex<double>*>(result->eigvec);
-		auto evals = reinterpret_cast<std::complex<double>*>(result->eigval);
-
 		SparseGenMatProd<double> op(M);
 		GenEigsSolver<double, SparseGenMatProd<double>> eigs(op, k, ncv);
 
-		eigs.init();
-		nconv = eigs.compute(selection, maxit, tol);
-		info = eigs.info();
-
-		if (info == CompInfo::Successful)
-		{
-			MapVec v(evals, nconv, 1);
-			v.noalias() = eigs.eigenvalues();
-
-			if (retvec)
-			{
-				MapMat m(evecs, A->n, nconv);
-				m.noalias() = eigs.eigenvectors();
-			}
-		}
-
-		result->iterations = eigs.num_iterations();
-		result->info = static_cast<int>(info);
+		return solve_di_ns(M, eigs, maxit, tol, selection, result);
+	}
+	catch (std::exception& e)
+	{
+		result->info = -1001;
 	}
 	catch (...)
 	{
 		result->info = -1000;
 	}
 
-	return nconv;
+	return 0;
 }
 
 int spectra_di_ns_shift(int which, int k, int ncv, int maxit, double tol, double sigma,
 	spectra_spmat* A, spectra_result* result)
 {
-	CompInfo info;
-	SortRule selection;
-
-	int nconv = 0;
-	bool retvec = result->eigvec != NULL;
-
 	try
 	{
+		SortRule selection;
+
 		SELECTION_RULE_FROM_INT(which)
 
 		// We are going to calculate the eigenvalues of M
 		Eigen::Map<const SpMatrix> M(A->n, A->n, A->nnz, A->p, A->i, (double*)A->x);
 
-		auto evecs = reinterpret_cast<std::complex<double>*>(result->eigvec);
-		auto evals = reinterpret_cast<std::complex<double>*>(result->eigval);
-
 		SparseGenRealShiftSolve<double> op(M);
 		GenEigsRealShiftSolver<double, SparseGenRealShiftSolve<double>> eigs(op, k, ncv, sigma);
 
-		eigs.init();
-		nconv = eigs.compute(selection, maxit, tol);
-		info = eigs.info();
-
-		if (info == CompInfo::Successful)
-		{
-			MapVec v(evals, nconv, 1);
-			v.noalias() = eigs.eigenvalues();
-
-			if (retvec)
-			{
-				MapMat m(evecs, A->n, nconv);
-				m.noalias() = eigs.eigenvectors();
-			}
-		}
-
-		result->iterations = eigs.num_iterations();
-		result->info = static_cast<int>(info);
+		return solve_di_ns(M, eigs, maxit, tol, selection, result);
+	}
+	catch (std::exception& e)
+	{
+		result->info = -1001;
 	}
 	catch (...)
 	{
 		result->info = -1000;
 	}
 
-	return nconv;
+	return 0;
 }
