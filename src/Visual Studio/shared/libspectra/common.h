@@ -46,25 +46,25 @@ switch(i)                                               \
 
 /* Sparse matrix in column compressed format. */
 typedef struct spectra_spmat_t {
-	/* Number of rows/columns. */
+    /* Number of rows/columns. */
     int  n;
-	/* Array of nonzero values. */
+    /* Array of nonzero values. */
     void *x;
-	/* Array of column indices. */
+    /* Array of column indices. */
     int  *i;
-	/* Array of row pointers. */
+    /* Array of row pointers. */
     int  *p;
-	/* Number of nonzeros in the matrix. */
+    /* Number of nonzeros in the matrix. */
     int  nnz;
 } spectra_spmat;
 
 typedef struct spectra_result_t {
-	/* Eigenvalues. */
+    /* Eigenvalues. */
     void *eigval;
-	/* Eigenvectors. */
+    /* Eigenvectors. */
     void *eigvec;
-	/* Number of iterations taken. */
+    /* Number of iterations taken. */
     int  iterations;
-	/* Error info. */
+    /* Error info. */
     int  info;
 } spectra_result;
