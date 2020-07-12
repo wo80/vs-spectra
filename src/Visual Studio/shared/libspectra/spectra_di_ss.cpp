@@ -20,7 +20,7 @@ int solve_di_ss(const TypeA& A, Solver& eigs, int maxit, double tol, SortRule se
 {
     eigs.init();
 
-    int nconv = eigs.compute(selection, maxit, tol);
+    int nconv = eigs.compute(selection, maxit, tol, SortRule::SmallestAlge);
 
     CompInfo info = eigs.info();
 

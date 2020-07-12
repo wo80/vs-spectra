@@ -21,7 +21,7 @@ int solve_di_sg(const TypeA& A, const TypeB& B, Solver& eigs, int maxit, double 
 {
     eigs.init();
 
-    int nconv = eigs.compute(selection, maxit, tol);
+    int nconv = eigs.compute(selection, maxit, tol, SortRule::SmallestAlge);
 
     CompInfo info = eigs.info();
 
