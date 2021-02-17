@@ -4,7 +4,7 @@ This is a Visual Studio solution for [Spectra](https://github.com/yixuan/spectra
 
 ## Instructions
 
-The repository contains a C API for the Spectra eigensolver. The project depends on the currently (2020-06-30) unreleased 1.y.z branch of [Spectra](https://github.com/yixuan/spectra/archive/1.y.z.zip). Spectra depends on [Eigen](https://gitlab.com/libeigen/eigen). Make sure that both libraries are available in the include subfolder.
+The repository contains a C API for the Spectra eigensolver. The project depends on the currently (2021-02-17) unreleased master branch of [Spectra](https://github.com/yixuan/spectra/archive/master.zip). Spectra depends on [Eigen](https://gitlab.com/libeigen/eigen). Make sure that both libraries are available in the include subfolder.
 
 Pre-compiled binaries for windows users can be found [here](http://wo80.bplaced.net/math/packages.html).
 
