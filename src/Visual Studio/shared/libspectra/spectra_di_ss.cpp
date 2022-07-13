@@ -57,7 +57,7 @@ int spectra_di_ss(int which, int k, int ncv, int maxit, double tol,
         Eigen::Map<const SpMatrix> M(A->n, A->n, A->nnz, A->p, A->i, (double *)A->x);
 
         SparseSymMatProd<double> op(M);
-        SymEigsSolver<double, SparseSymMatProd<double>> eigs(op, k, ncv);
+        SymEigsSolver<SparseSymMatProd<double>> eigs(op, k, ncv);
 
         return solve_di_ss(M, eigs, maxit, tol, selection, result);
     }
@@ -86,7 +86,7 @@ int spectra_di_ss_shift(int which,  int k, int ncv, int maxit, double tol, doubl
         Eigen::Map<const SpMatrix> M(A->n, A->n, A->nnz, A->p, A->i, (double *)A->x);
 
         SparseSymShiftSolve<double> op(M);
-        SymEigsShiftSolver<double, SparseSymShiftSolve<double>> eigs(op, k, ncv, sigma);
+        SymEigsShiftSolver<SparseSymShiftSolve<double>> eigs(op, k, ncv, sigma);
 
         return solve_di_ss(M, eigs, maxit, tol, selection, result);
     }

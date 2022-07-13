@@ -57,7 +57,7 @@ int spectra_di_ns(int which, int k, int ncv, int maxit, double tol,
         Eigen::Map<const SpMatrix> M(A->n, A->n, A->nnz, A->p, A->i, (double*)A->x);
 
         SparseGenMatProd<double> op(M);
-        GenEigsSolver<double, SparseGenMatProd<double>> eigs(op, k, ncv);
+        GenEigsSolver<SparseGenMatProd<double>> eigs(op, k, ncv);
 
         return solve_di_ns(M, eigs, maxit, tol, selection, result);
     }
@@ -86,7 +86,7 @@ int spectra_di_ns_shift(int which, int k, int ncv, int maxit, double tol, double
         Eigen::Map<const SpMatrix> M(A->n, A->n, A->nnz, A->p, A->i, (double*)A->x);
 
         SparseGenRealShiftSolve<double> op(M);
-        GenEigsRealShiftSolver<double, SparseGenRealShiftSolve<double>> eigs(op, k, ncv, sigma);
+        GenEigsRealShiftSolver<SparseGenRealShiftSolve<double>> eigs(op, k, ncv, sigma);
 
         return solve_di_ns(M, eigs, maxit, tol, selection, result);
     }

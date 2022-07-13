@@ -61,7 +61,7 @@ int spectra_di_sg(int which, int k, int ncv, int maxit, double tol,
         SparseSymMatProd<double> op(M);
         SparseCholesky<double> Bop(N);
 
-        SymGEigsSolver<double, SparseSymMatProd<double>, SparseCholesky<double>, GEigsMode::Cholesky> eigs(op, Bop, k, ncv);
+        SymGEigsSolver<SparseSymMatProd<double>, SparseCholesky<double>, GEigsMode::Cholesky> eigs(op, Bop, k, ncv);
 
         return solve_di_sg(M, N, eigs, maxit, tol, selection, result);
     }
@@ -98,21 +98,21 @@ int spectra_di_sg_shift(int which, char mode, int k, int ncv, int maxit, double 
         if (mode == 'S')
         {
             BOpType Bop(N);
-            SymGEigsShiftSolver<double, OpType, BOpType, GEigsMode::ShiftInvert> eigs(op, Bop, k, ncv, sigma);
+            SymGEigsShiftSolver<OpType, BOpType, GEigsMode::ShiftInvert> eigs(op, Bop, k, ncv, sigma);
 
             return solve_di_sg(M, N, eigs, maxit, tol, selection, result);
         }
         else if (mode == 'B')
         {
             BOpType Bop(M);
-            SymGEigsShiftSolver<double, OpType, BOpType, GEigsMode::Buckling> eigs(op, Bop, k, ncv, sigma);
+            SymGEigsShiftSolver<OpType, BOpType, GEigsMode::Buckling> eigs(op, Bop, k, ncv, sigma);
 
             return solve_di_sg(M, N, eigs, maxit, tol, selection, result);
         }
         else if (mode == 'C')
         {
             BOpType Bop(N);
-            SymGEigsShiftSolver<double, OpType, BOpType, GEigsMode::Cayley> eigs(op, Bop, k, ncv, sigma);
+            SymGEigsShiftSolver<OpType, BOpType, GEigsMode::Cayley> eigs(op, Bop, k, ncv, sigma);
 
             return solve_di_sg(M, N, eigs, maxit, tol, selection, result);
         }
