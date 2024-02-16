@@ -23,8 +23,8 @@ endif()
 
 add_library(cspectra)
 
-target_link_libraries(cspectra PUBLIC Eigen3::Eigen)
-target_link_libraries(cspectra PUBLIC Spectra::Spectra)
+target_link_libraries(cspectra PRIVATE Eigen3::Eigen)
+target_link_libraries(cspectra PRIVATE Spectra::Spectra)
 
 target_include_directories(cspectra
   PUBLIC
