@@ -1,12 +1,8 @@
-# Spectra for Visual Studio
+# CSpectra
 
-This is a Visual Studio solution for [Spectra](https://github.com/yixuan/spectra).
+The repository contains a C API for the [Spectra](https://github.com/yixuan/spectra) eigensolver. Spectra depends on [Eigen](https://gitlab.com/libeigen/eigen). Make sure that both libraries are installed using CMake.
 
-## Instructions
-
-The repository contains a C API for the Spectra eigensolver. The project depends on the current release of [Spectra](https://github.com/yixuan/spectra/archive/refs/tags/v1.0.1.zip) (version 1.0.1). Spectra depends on [Eigen](https://gitlab.com/libeigen/eigen). Make sure that both libraries are available in the include subfolder.
-
-Pre-compiled binaries for windows users can be found [here](http://wo80.bplaced.net/math/packages.html).
+Pre-compiled binaries for windows users can be found [here](http://wo80.bplaced.net/packages/#package:spectra).
 
 ## Why?
 
