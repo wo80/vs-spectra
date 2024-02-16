@@ -2,6 +2,7 @@
 
 #include "spectra_di_ns.h"
 
+#include <stdexcept>
 #include <Eigen/Core>
 #include <Eigen/SparseCore>
 #include <Spectra/GenEigsSolver.h>
@@ -21,7 +22,7 @@ int solve_di_ns(const TypeA& A, Solver& eigs, int maxit, double tol, SortRule se
 {
     eigs.init();
 
-    int nconv = eigs.compute(selection, maxit, tol, SortRule::SmallestAlge);
+    int nconv = eigs.compute(selection, maxit, tol, SortRule::SmallestMagn);
 
     CompInfo info = eigs.info();
 
@@ -61,6 +62,10 @@ int spectra_di_ns(int which, int k, int ncv, int maxit, double tol,
 
         return solve_di_ns(M, eigs, maxit, tol, selection, result);
     }
+    catch (std::invalid_argument& e)
+    {
+        result->info = -1002;
+    }
     catch (std::exception& e)
     {
         result->info = -1001;
@@ -89,6 +94,10 @@ int spectra_di_ns_shift(int which, int k, int ncv, int maxit, double tol, double
         GenEigsRealShiftSolver<SparseGenRealShiftSolve<double>> eigs(op, k, ncv, sigma);
 
         return solve_di_ns(M, eigs, maxit, tol, selection, result);
+    }
+    catch (std::invalid_argument& e)
+    {
+        result->info = -1002;
     }
     catch (std::exception& e)
     {

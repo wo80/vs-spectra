@@ -2,6 +2,7 @@
 
 #include "spectra_di_sg.h"
 
+#include <stdexcept>
 #include <Eigen/Core>
 #include <Eigen/SparseCore>
 #include <Spectra/SymGEigsSolver.h>
@@ -65,6 +66,10 @@ int spectra_di_sg(int which, int k, int ncv, int maxit, double tol,
 
         return solve_di_sg(M, N, eigs, maxit, tol, selection, result);
     }
+    catch (std::invalid_argument& e)
+    {
+        result->info = -1002;
+    }
     catch (std::exception& e)
     {
         result->info = -1001;
@@ -117,6 +122,10 @@ int spectra_di_sg_shift(int which, char mode, int k, int ncv, int maxit, double 
             return solve_di_sg(M, N, eigs, maxit, tol, selection, result);
         }
 
+    }
+    catch (std::invalid_argument& e)
+    {
+        result->info = -1002;
     }
     catch (std::exception& e)
     {
